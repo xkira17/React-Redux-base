@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUsers, deletUser } from './store/reducers/user.slice'
 import { Button, Tbody, Td, Tr, Box, Table, Th, Thead, Heading, Flex } from '@chakra-ui/react'
+import { BsFillPersonPlusFill } from "react-icons/bs";
+import { AiFillDelete } from 'react-icons/ai'
 
 const App = () => {
   const { users } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
-  console.log(users);
+  console.log(users.slice(0, 5));
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
@@ -18,11 +20,11 @@ const App = () => {
   }, [])
 
   return (
-    <Box w={'80%'} mx={'auto'} my={'30px'} shadow={'dark-lg'} rounded={'2xl'}>
-      <Box bg={'gray.700'}>
+    <Box w={'80%'} mx={'auto'} my={'30px'} shadow={'2xl'} rounded={'2xl'}>
+      <Box bg={'gray.700'} borderTopRadius={'8px'}>
         <Flex w={'90%'} mx={'auto'} py={'20px'} justifyContent={'space-between'} alignItems={'center'}>
-          <Heading fontSize={"24px"} color={'white'}>Students</Heading>
-          <Button colorScheme='green'>Add student</Button>
+          <Heading fontSize={"24px"} color={'white'}>STUDENTS</Heading>
+          <Button colorScheme='green' rightIcon={<BsFillPersonPlusFill />}>ADD STUDENTS</Button>
         </Flex>
       </Box>
       <Box p={'30px'}>
@@ -37,13 +39,13 @@ const App = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {users?.map((item) => (
+            {users?.slice(0, 5).map((item, index) => (
               <Tr key={item.id}>
-                <Td>{item.id}</Td>
+                <Td>{index}</Td>
                 <Td>{item.username}</Td>
                 <Td>{item.email}</Td>
                 <Td>{item.phone}</Td>
-                <Td><Button colorScheme='red' onClick={() => dispatch(deletUser(item.id))}>Delete</Button></Td>
+                <Td><Button colorScheme='red' onClick={() => dispatch(deletUser(item.id))} rightIcon={<AiFillDelete />}>Delete</Button></Td>
               </Tr>
             ))}
           </Tbody>
